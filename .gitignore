@@ -1,3 +1,6 @@
+# Docker Volumes
+deployment/mysql/data/
+
 # Logs
 logs
 *.log
