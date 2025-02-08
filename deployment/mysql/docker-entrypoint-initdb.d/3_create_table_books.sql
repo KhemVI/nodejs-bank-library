@@ -12,5 +12,7 @@ CREATE TABLE IF NOT EXISTS books (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted_at DATETIME DEFAULT NULL,
   INDEX idx_title(title),
-  FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (employee_id_created_by) REFERENCES employees (employee_id) ON UPDATE CASCADE,
+  FOREIGN KEY (employee_id_updated_by) REFERENCES employees (employee_id) ON UPDATE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES categories (category_id) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
