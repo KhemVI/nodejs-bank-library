@@ -23,7 +23,7 @@ export async function addBook(req, res, next) {
       isbn: z.string().min(13).max(20),
       category_id: z.string().trim().min(1).max(63),
       publish_year: z.number().int().min(0).max(65535).optional(),
-      status: z.enum(["active", "suspended"]),
+      status: z.enum(["active", "suspended"]).optional(),
       employee_id_created_by: z.string().length(36),
       employee_id_updated_by: z.string().length(36)
     });
@@ -38,11 +38,13 @@ export async function addBook(req, res, next) {
     const insertId = uuidv1();
     connection = await db.getConnection();
     await book.addBook({ book_id: insertId, ...body });
+    // add activity logs
     await connection.commit();
-    const [results] = await db.query(
-      `SELECT * FROM books WHERE book_id = ? LIMIT 1;`,
-      [insertId]
-    );
+    const [results] = await book.getBooks({
+      filter: {
+        book_id: insertId
+      }
+    });
     db.releaseConnection();
     return res.status(200).send({
       data: results,
