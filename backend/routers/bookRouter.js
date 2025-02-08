@@ -1,16 +1,68 @@
 import express from 'express';
 import _ from 'lodash';
 import { v1 as uuidv1 } from 'uuid'
-// import * as items from '../models/itemsModel.js';
+import { z } from 'zod';
+import * as book from '../models/bookModel.js';
 // import * as modes from '../models/modesModel.js';
 import logger from '../config/logger.js';
 import db from '../config/db.js';
 
 export const router = express.Router();
 // router.get('/:id', getItem);
-// router.post('/', multerMemoryStorage.single("image"), addItem);
+router.post('/', addBook);
 // router.patch('/', multerMemoryStorage.single("image"), updateItem);
 // router.delete('/', deleteItem);
+
+export async function addBook(req, res, next) {
+  let connection;
+  try {
+    const { body } = req;
+    const bodySchema = z.object({
+      title: z.string().trim().min(1).max(511),
+      author: z.string().optional(),
+      isbn: z.string().min(13).max(20),
+      category_id: z.string().trim().min(1).max(63),
+      publish_year: z.number().int().min(0).max(65535).optional(),
+      status: z.enum(["active", "suspended"]),
+      employee_id_created_by: z.string().length(36),
+      employee_id_updated_by: z.string().length(36)
+    });
+    const validator = bodySchema.safeParse(body);
+    if (!validator.success) {
+      return res.status(400).send({
+        status: "failure",
+        message: "Validation Failed!",
+        issues: validator.error?.issues
+      });
+    }
+    const insertId = uuidv1();
+    connection = await db.getConnection();
+    await book.addBook({ book_id: insertId, ...body });
+    await connection.commit();
+    const [results] = await db.query(
+      `SELECT * FROM books WHERE book_id = ? LIMIT 1;`,
+      [insertId]
+    );
+    db.releaseConnection();
+    return res.status(200).send({
+      data: results,
+      message: "success",
+    });
+  } catch (err) {
+    logger.customError(req, err);
+    if (connection) {
+      await connection.rollback();
+      db.releaseConnection();
+    }
+    return res.status(400).send({
+      status: "failure",
+      message: err.message
+    });
+  }
+}
+
+
+// adding, updating, and deleting books, and searching for books by different criteria
 
 // export async function getItem(req, res, next) {
 //   try {
