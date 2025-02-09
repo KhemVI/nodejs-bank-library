@@ -82,7 +82,6 @@ export async function addBook(req, res, next) {
     const insertId = uuidv1();
     connection = await db.getConnection();
     await book.addBook({ book_id: insertId, ...body }, connection);
-    await connection.commit();
     const [results] = await book.getBooks({
       filter: {
         book_id: insertId
@@ -93,6 +92,7 @@ export async function addBook(req, res, next) {
       activity_type: "book/add",
       description: JSON.stringify(results)
     });
+    await connection.commit();
     db.releaseConnection();
     return res.status(200).send({
       data: results,
@@ -141,7 +141,6 @@ export async function updateBook(req, res, next) {
       }
     }, connection);
     await book.updateBook(body, connection);
-    await connection.commit();
     const [results] = await book.getBooks({
       filter: {
         book_id: body.book_id
@@ -155,6 +154,7 @@ export async function updateBook(req, res, next) {
         after: results
       })
     });
+    await connection.commit();
     db.releaseConnection();
     return res.status(200).send({
       data: results,
