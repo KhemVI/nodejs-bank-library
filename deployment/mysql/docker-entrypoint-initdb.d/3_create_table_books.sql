@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS books (
   isbn VARCHAR(20),
   category_id VARCHAR(36),
   publish_year SMALLINT UNSIGNED,
-  status ENUM('active', 'suspended', 'deleted') DEFAULT 'active',
+  status ENUM('active', 'suspended') DEFAULT 'active',
   employee_id_created_by VARCHAR(36) NOT NULL,
   employee_id_updated_by VARCHAR(36) NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,

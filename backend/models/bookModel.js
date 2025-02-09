@@ -1,4 +1,5 @@
 import poolDb from '../config/db.js';
+import dayjs from '../config/day.js';
 import _ from 'lodash';
 
 const visibleFields = [
@@ -33,7 +34,7 @@ export async function getBooks(obj, db = poolDb) {
      ${!_.isNil(obj.filter?.isbn) ? 'isbn = ? AND ' : ''}
      ${!_.isNil(obj.filter?.category_id) ? 'category_id = ? AND ' : ''}
      ${!_.isNil(obj.filter?.publish_year) ? 'publish_year = ? AND ' : ''}
-     ${!_.isNil(obj.filter?.status) ? 'status = ? AND' : 'status = "active" AND'}
+     ${!_.isNil(obj.filter?.status) ? 'status = ? AND ' : ''}
      deleted_at IS NULL
      LIMIT ${!_.isNil(obj.paginator?.limit) ? '?' : '1'}
      OFFSET ${!_.isNil(obj.paginator?.offset) ? '?' : '0'};`,
@@ -89,5 +90,67 @@ export async function addBook(obj, db = poolDb) {
       obj.employee_id_updated_by,
       obj.category_id
     ].filter(value => !_.isNil(value))]
+  );
+}
+
+/**
+ * @param {uuid} obj.book_id 
+ * @param {string} obj.title
+ * @param {string|undefined} obj.author
+ * @param {string} obj.isbn 
+ * @param {string} obj.category_id
+ * @param {number} obj.publish_year
+ * @param {enum} obj.status 
+ * @param {string} obj.employee_id_created_by
+ * @param {string} obj.employee_id_updated_by
+ */
+export async function updateBook(obj, db = poolDb) {
+  await db.query(`
+    UPDATE books
+    SET
+      title = ?,
+      ${!_.isNil(obj.author) ? 'author = ?,' : ''}
+      isbn = ?,
+      ${!_.isNil(obj.publish_year) ? 'publish_year = ?,' : ''}
+      ${!_.isNil(obj.status) ? 'status = ?,' : ''}
+      ${!_.isNil(obj.employee_id_created_by) ? 'employee_id_created_by = ?,' : ''}
+      ${!_.isNil(obj.employee_id_updated_by) ? 'employee_id_updated_by = ?,' : ''}
+      category_id = ?
+    WHERE
+      book_id = ? AND deleted_at IS NULL;`,
+    [
+      ...[
+        obj.title,
+        obj.author,
+        obj.isbn,
+        obj.publish_year,
+        obj.status,
+        obj.employee_id_created_by,
+        obj.employee_id_updated_by,
+        obj.category_id,
+        obj.book_id
+      ].filter(value => !_.isNil(value))
+    ]
+  );
+}
+
+/**
+ * @param {uuid} obj.book_id 
+ * @param {string} obj.employee_id_updated_by
+ */
+export async function softDeleteBook(obj, db = poolDb) {
+  const SqlDatetimeNow = dayjs().utc().format('YYYY-MM-DD HH:mm:ss');
+  await db.query(`
+    UPDATE books
+    SET
+      employee_id_updated_by = ?,
+      deleted_at = ?
+    WHERE
+      book_id = ? AND deleted_at IS NULL;`,
+    [
+      obj.employee_id_updated_by,
+      SqlDatetimeNow,
+      obj.book_id
+    ]
   );
 }
