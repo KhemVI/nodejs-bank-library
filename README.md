@@ -1,6 +1,6 @@
 # Bank's library system
 
-This repository is about backend service for an interview test using NodeJS.
+This repository is about backend service for an interview assessment using NodeJS.
 
 ## Database Design
 
