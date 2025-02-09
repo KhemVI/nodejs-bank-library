@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { v1 as uuidv1 } from 'uuid'
 import { z } from 'zod';
 import * as book from '../models/bookModel.js';
+import * as activityLog from '../models/activityLogModel.js';
 import logger from '../config/logger.js';
 import db from '../config/db.js';
 import { convertStringToNumber } from '../utils/formatter.js';
@@ -81,13 +82,17 @@ export async function addBook(req, res, next) {
     const insertId = uuidv1();
     connection = await db.getConnection();
     await book.addBook({ book_id: insertId, ...body }, connection);
-    // add activity logs
     await connection.commit();
     const [results] = await book.getBooks({
       filter: {
         book_id: insertId
       }
     }, connection);
+    await activityLog.insert({
+      employee_id: body.employee_id_created_by,
+      activity_type: "book/add",
+      description: JSON.stringify(results)
+    });
     db.releaseConnection();
     return res.status(200).send({
       data: results,
@@ -130,15 +135,26 @@ export async function updateBook(req, res, next) {
       });
     }
     connection = await db.getConnection();
+    const [beforeResults] = await book.getBooks({
+      filter: {
+        book_id: body.book_id
+      }
+    }, connection);
     await book.updateBook(body, connection);
-    // add activity logs
     await connection.commit();
     const [results] = await book.getBooks({
       filter: {
-        book_id: body.book_id,
-        status: body.status
+        book_id: body.book_id
       }
     }, connection);
+    await activityLog.insert({
+      employee_id: body.employee_id_created_by,
+      activity_type: "book/update",
+      description: JSON.stringify({
+        before: beforeResults,
+        after: results
+      })
+    });
     db.releaseConnection();
     return res.status(200).send({
       data: results,
@@ -180,9 +196,17 @@ export async function deleteBook(req, res, next) {
       }
     }, connection);
     await book.softDeleteBook(body, connection);
-    // add activity logs
+    if (results.length > 0) {
+      await activityLog.insert({
+        employee_id: body.employee_id_updated_by,
+        activity_type: "book/softDelete",
+        description: JSON.stringify({
+          book_id: body.book_id
+        })
+      });
+    }
     await connection.commit();
-    db.releaseConnection();
+    db.releaseConnection(); 
     return res.status(200).send({
       data: results.map(row => { return {deleted_id: row.book_id} }),
       message: "success",

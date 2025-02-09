@@ -20,7 +20,7 @@ const visibleFields = [
  * @param {string|undefined}  obj.filter.isbn
  * @param {uuid|undefined}    obj.filter.category_id
  * @param {number|undefined}  obj.filter.publish_year
- * @param {enum|"active"}     obj.filter.status
+ * @param {enum|undefined}     obj.filter.status
  * @param {number|1}          obj.paginator.limit
  * @param {number|0}          obj.paginator.offset
  */
