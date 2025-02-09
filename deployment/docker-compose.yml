@@ -1,8 +1,3 @@
-networks:
-  app-network:
-    name: app-network
-    driver: bridge
-
 services:
   db-service:
     container_name: db-container
@@ -11,10 +6,9 @@ services:
     environment:
       - MYSQL_DATABASE=bank_library
       - MYSQL_ROOT_PASSWORD=4or_!nterview_0nly
-    ports:
-      - 3306:3306
-    networks:
-      - app-network
+    network_mode: host
+    # ports:
+    #   - 3306:3306
     volumes:
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./mysql/data:/var/lib/mysql
@@ -32,14 +26,13 @@ services:
       dockerfile: backend-service.Dockerfile
     image: backend-app-image
     env_file: "../backend/.env"
-    ports:
-      - 9400:9400
+    network_mode: host
+    # ports:
+    #   - 9400:9400
     logging:
       driver: "json-file"
       options:
         max-file: "3"
         max-size: "10m"
-    networks:
-      - app-network
     depends_on:
       - db-service

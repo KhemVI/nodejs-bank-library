@@ -5,8 +5,7 @@ const logger = pino(
     transport: {
       target: 'pino-pretty'
     }, 
-  },
-  pino.destination("./app.log") 
+  }
 );
 
 logger.customError = (req, err) => {
