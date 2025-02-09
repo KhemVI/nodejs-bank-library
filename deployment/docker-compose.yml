@@ -7,8 +7,6 @@ services:
       - MYSQL_DATABASE=bank_library
       - MYSQL_ROOT_PASSWORD=4or_!nterview_0nly
     network_mode: host
-    # ports:
-    #   - 3306:3306
     volumes:
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./mysql/data:/var/lib/mysql
@@ -27,8 +25,6 @@ services:
     image: backend-app-image
     env_file: "../backend/.env"
     network_mode: host
-    # ports:
-    #   - 9400:9400
     logging:
       driver: "json-file"
       options:

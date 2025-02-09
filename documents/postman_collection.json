@@ -1,0 +1,319 @@
+{
+	"info": {
+		"_postman_id": "6a008436-bb7f-4928-9a44-68fc78784890",
+		"name": "Bank's library",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37739038"
+	},
+	"item": [
+		{
+			"name": "Books",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Introduction to Algorithms\",\r\n    \"author\": \"Thomas H. Cormen\",\r\n    \"isbn\": \"9780262033848\",\r\n    \"publish_year\": 2009,\r\n    \"status\": \"suspend\",\r\n    \"employee_id_created_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"employee_id_updated_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"category_id\": \"071d8472-e5e0-11ef-bba9-0242ac140002\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9400/api/book?limit=50",
+					"host": [
+						"localhost"
+					],
+					"port": "9400",
+					"path": [
+						"api",
+						"book"
+					],
+					"query": [
+						{
+							"key": "book_id",
+							"value": "176411e0-e624-11ef-b076-c7defab3a040",
+							"disabled": true
+						},
+						{
+							"key": "title",
+							"value": "Introduction to Algorithms",
+							"disabled": true
+						},
+						{
+							"key": "author",
+							"value": "Thomas H. Cormen",
+							"disabled": true
+						},
+						{
+							"key": "isbn",
+							"value": "9780262033848",
+							"disabled": true
+						},
+						{
+							"key": "category_id",
+							"value": "071d8472-e5e0-11ef-bba9-0242ac140002",
+							"disabled": true
+						},
+						{
+							"key": "publish_year",
+							"value": "2009",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "suspended",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "50"
+						},
+						{
+							"key": "offset",
+							"value": "0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "search by book_id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Introduction to Algorithms\",\r\n    \"author\": \"Thomas H. Cormen\",\r\n    \"isbn\": \"9780262033848\",\r\n    \"publish_year\": 2009,\r\n    \"status\": \"suspend\",\r\n    \"employee_id_created_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"employee_id_updated_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"category_id\": \"071d8472-e5e0-11ef-bba9-0242ac140002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9400/api/book?book_id=176411e0-e624-11ef-b076-c7defab3a040",
+							"host": [
+								"localhost"
+							],
+							"port": "9400",
+							"path": [
+								"api",
+								"book"
+							],
+							"query": [
+								{
+									"key": "book_id",
+									"value": "176411e0-e624-11ef-b076-c7defab3a040"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "search by category",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Introduction to Algorithms\",\r\n    \"author\": \"Thomas H. Cormen\",\r\n    \"isbn\": \"9780262033848\",\r\n    \"publish_year\": 2009,\r\n    \"status\": \"suspend\",\r\n    \"employee_id_created_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"employee_id_updated_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"category_id\": \"071d8472-e5e0-11ef-bba9-0242ac140002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9400/api/book?category_id=071d8472-e5e0-11ef-bba9-0242ac140002",
+							"host": [
+								"localhost"
+							],
+							"port": "9400",
+							"path": [
+								"api",
+								"book"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "071d8472-e5e0-11ef-bba9-0242ac140002"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "advanced search",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Introduction to Algorithms\",\r\n    \"author\": \"Thomas H. Cormen\",\r\n    \"isbn\": \"9780262033848\",\r\n    \"publish_year\": 2009,\r\n    \"status\": \"suspend\",\r\n    \"employee_id_created_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"employee_id_updated_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"category_id\": \"071d8472-e5e0-11ef-bba9-0242ac140002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9400/api/book?author=Thomas H. Cormen&isbn=9780262033848&publish_year=2009&limit=50&offset=0",
+							"host": [
+								"localhost"
+							],
+							"port": "9400",
+							"path": [
+								"api",
+								"book"
+							],
+							"query": [
+								{
+									"key": "book_id",
+									"value": "176411e0-e624-11ef-b076-c7defab3a040",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Introduction to Algorithms",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "Thomas H. Cormen"
+								},
+								{
+									"key": "isbn",
+									"value": "9780262033848"
+								},
+								{
+									"key": "category_id",
+									"value": "071d8472-e5e0-11ef-bba9-0242ac140002",
+									"disabled": true
+								},
+								{
+									"key": "publish_year",
+									"value": "2009"
+								},
+								{
+									"key": "status",
+									"value": "suspended",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Introduction to Algorithms\",\r\n    \"author\": \"Thomas H. Cormen\",\r\n    \"isbn\": \"9780262033848\",\r\n    \"publish_year\": 2009,\r\n    \"employee_id_created_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"employee_id_updated_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"category_id\": \"071d8472-e5e0-11ef-bba9-0242ac140002\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9400/api/book",
+					"host": [
+						"localhost"
+					],
+					"port": "9400",
+					"path": [
+						"api",
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Book",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"book_id\": \"68bc7790-e687-11ef-b791-193058dee481\",\r\n    \"title\": \"Introduction to Algorithms 3\",\r\n    \"author\": \"Thomas H. Cormen 3\",\r\n    \"isbn\": \"9780262033848\",\r\n    \"publish_year\": 2013,\r\n    \"status\": \"suspended\",\r\n    \"employee_id_created_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"employee_id_updated_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\",\r\n    \"category_id\": \"071d8472-e5e0-11ef-bba9-0242ac140002\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9400/api/book",
+					"host": [
+						"localhost"
+					],
+					"port": "9400",
+					"path": [
+						"api",
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Book",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"book_id\": \"f7d69740-e62c-11ef-8cb6-61ef0d9968bc\",\r\n    \"employee_id_updated_by\": \"2be85a06-e5dd-11ef-bba9-0242ac140002\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9400/api/book",
+					"host": [
+						"localhost"
+					],
+					"port": "9400",
+					"path": [
+						"api",
+						"book"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
